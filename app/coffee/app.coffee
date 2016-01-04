@@ -340,7 +340,9 @@ configure = ($routeProvider, $locationProvider, $httpProvider, $provide, $tgEven
             templateUrl: "auth/login.html",
             title: "LOGIN.PAGE_TITLE",
             description: "LOGIN.PAGE_DESCRIPTION",
-            disableHeader: true
+            disableHeader: true,
+            controller: "Casting",
+            controllerAs: "vm"
         }
     )
     $routeProvider.when("/register",
@@ -676,7 +678,11 @@ modules = [
     "ngAria",
     "pascalprecht.translate",
     "infinite-scroll",
-    "tgRepeat"
+    "tgRepeat",
+
+    # Casting modules
+    "taigaCasting",
+
 ].concat(_.map(pluginsWithModule, (plugin) -> plugin.module))
 
 # Main module definition

@@ -14,35 +14,20 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-# File: resources.coffee
+# File: user.service.coffee
 ###
 
-services = [
-    "tgProjectsResources",
-    "tgUserResources",
-    "tgUsersResources",
-    "tgUserstoriesResource",
-    "tgTasksResource",
-    "tgIssuesResource",
-    "tgExternalAppsResource",
-    "tgCastingResources"
-]
-
-Resources = ($injector) ->
-    for serviceName in services
-        serviceFn = $injector.get(serviceName)
-
-        service = $injector.invoke(serviceFn)
-
-        for serviceProperty in Object.keys(service)
-            if @[serviceProperty]
-                console.warm("repeated resource " + serviceProperty)
-
-            @[serviceProperty] = service[serviceProperty]
-
-    return @
+taiga = @.taiga
+bindMethods = taiga.bindMethods
 
 
-Resources.$inject = ["$injector"]
+class CastingService extends taiga.Service
+    @.$inject = ["tgResources"]
 
-angular.module("taigaResources2").service("tgResources", Resources)
+    constructor: (@rs) ->
+        bindMethods(@)
+
+    getUserByEmail: (email) ->
+        return @rs.casting.getUserByEmail(email)
+    
+angular.module("taigaCommon").service("tgCastingService", CastingService)

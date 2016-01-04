@@ -1,4 +1,5 @@
 div.login-form-container(tg-login)
+ 
     form.login-form
         fieldset
             input(
@@ -32,9 +33,10 @@ div.login-form-container(tg-login)
                 translate="LOGIN_COMMON.ACTION_SIGN_IN"
             )
 
-        fieldset(
-            ng-repeat="plugin in contribPlugins|filter:{type: 'auth'}"
-            ng-include="plugin.template"
-        )
-
+        // fieldset(
+        //    ng-repeat="plugin in contribPlugins|filter:{type: 'auth'}"
+        //    ng-include="plugin.template"
+        // )
+    button.button-green.submit-button(ng-click="vm.FBLogin()") Sign in Via Facebook
     tg-public-register-message
+    

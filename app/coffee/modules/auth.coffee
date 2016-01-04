@@ -120,14 +120,14 @@ class AuthService extends taiga.Service
 
     login: (data, type) ->
         url = @urls.resolve("auth")
-
         data = _.clone(data, false)
+
         data.type = if type then type else "normal"
 
         @.removeToken()
 
         return @http.post(url, data).then (data, status) =>
-            user = @model.make_model("users", data.data)
+            user = @model.make_model("users", data.data)            
             @.setToken(user.auth_token)
             @.setUser(user)
             return user
@@ -139,6 +139,8 @@ class AuthService extends taiga.Service
 
         @._setTheme()
         @._setLocales()
+        FB.logout (response) ->
+            console.log('bdlog: fb logout')
 
 
     register: (data, type, existing) ->
@@ -152,7 +154,7 @@ class AuthService extends taiga.Service
         @.removeToken()
 
         return @http.post(url, data).then (response) =>
-            user = @model.make_model("users", response.data)
+            user = @model.make_model("users", response.data)            
             @.setToken(user.auth_token)
             @.setUser(user)
             return user
@@ -187,6 +189,8 @@ class AuthService extends taiga.Service
         url = @urls.resolve("users-cancel-account")
         data = _.clone(data, false)
         return @http.post(url, data)
+    binhTest: ->
+        alert('binh test')    
 
 module.service("$tgAuth", AuthService)
 
@@ -231,6 +235,7 @@ LoginDirective = ($auth, $confirm, $location, $config, $routeParams, $navUrls, $
         onError = (response) ->
             $confirm.notify("light-error", $translate.instant("LOGIN_FORM.ERROR_AUTH_INCORRECT"))
 
+    
         submit = debounce 2000, (event) =>
             event.preventDefault()
 
@@ -256,6 +261,7 @@ LoginDirective = ($auth, $confirm, $location, $config, $routeParams, $navUrls, $
             $el.off()
 
     return {link:link}
+    
 
 module.directive("tgLogin", ["$tgAuth", "$tgConfirm", "$tgLocation", "$tgConfig", "$routeParams",
                              "$tgNavUrls", "$tgEvents", "$translate", LoginDirective])
