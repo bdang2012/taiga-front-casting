@@ -16,3 +16,4 @@ scss-lint.log
 e2e/screenshots/
 .idea/
 .project/
+conf/
