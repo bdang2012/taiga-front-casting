@@ -17,3 +17,9 @@ e2e/screenshots/
 .idea/
 .project/
 conf/
+
+# these are for production.  not in develpment are: dist.js, generate.sh
+# package.json in both but with diff content
+dist.js
+generate.sh
+package.json
