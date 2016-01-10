@@ -29,5 +29,18 @@ class CastingService extends taiga.Service
 
     getUserByEmail: (email) ->
         return @rs.casting.getUserByEmail(email)
+
+    createUserIfNotExistForFacebook: (email,username) ->
+        binhRs = @.rs
+        promise = @.getUserByEmail(email)
+        promise.then (user) ->
+            console.log("<<<<<bdlog: createUserIfNotExistForFacebook: User already exist")
+            console.log(">>>>>")
+
+        #case promise failed
+        promise = promise.then null, (err) ->
+            console.log("bdlog: user not exist .... create now")
+            return binhRs.casting.createUserForFacebook(email,username)
+        return promise
     
 angular.module("taigaCommon").service("tgCastingService", CastingService)

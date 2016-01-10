@@ -30,7 +30,23 @@ Resource = (urlsService, http,  config, paginateResponseService) ->
 
         return http.get(url, params, httpOptions).then (result) ->
             return Immutable.fromJS(result.data)
-    
+
+    service.createUserForFacebook = (email, username) ->
+        url = config.get("api") + 'auth/register'
+        httpOptions = {}
+
+        username_nospace = username.replace " ","-"
+        params = {
+            type: "public",
+            username: username_nospace,
+            password: "vancouvertorontovancouver",
+            email: email,
+            full_name: username
+        }
+
+        return http.post(url, params, httpOptions).then (result) ->
+            return Immutable.fromJS(result.data)
+
     return () ->
         return {"casting": service}
 

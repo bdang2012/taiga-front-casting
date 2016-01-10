@@ -22,6 +22,7 @@ class CastingController
         binhAuth = @auth
         binhNavUrls = @navUrls
         binhLocation = @location
+        binhCastingService = @castingService
 
         FB.login ((response) ->
                     
@@ -37,18 +38,19 @@ class CastingController
                     console.log(response)
                     console.log('end of response object')
                     data = {
-                        "username": "casting_admin@shaw.ca",
+                        "username": response.email,
                         "password": "vancouvertorontovancouver",
                         "type" : "normal"
                     }
-                   
-                    promise = binhAuth.login(data, "normal")
-                    promise.then ->
-                        console.log('success')
-                        nextUrl = binhNavUrls.resolve("home")
-                        binhLocation.url(nextUrl)
+                    # make sure you have facebook user before proceeding
+                    binhCastingService.createUserIfNotExistForFacebook(response.email, response.name).then ->
+                        promise = binhAuth.login(data, "normal")
+                        promise.then ->
+                            console.log('success binhAuth.login_facebook')
+                            nextUrl = binhNavUrls.resolve("home")
+                            binhLocation.url(nextUrl)
                     
-                    return
+                        return
           
                 FB.api '/me/permissions' , (response) ->
                     console.log(response)

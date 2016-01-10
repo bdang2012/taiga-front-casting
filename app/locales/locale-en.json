@@ -16,7 +16,7 @@
         "EDIT": "Edit",
         "DRAG": "Drag",
         "TAG_LINE": "Your agile, free, and open source project management tool",
-        "TAG_LINE_2": "LOVE YOUR PROJECT",
+        "TAG_LINE_2": "PICTURE CAST ME",
         "BLOCK": "Block",
         "UNBLOCK": "Unblock",
         "BLOCKED": "Blocked",
@@ -256,7 +256,7 @@
             }
         },
         "META": {
-            "PAGE_TITLE": "Taiga",
+            "PAGE_TITLE": "Bovedalabs",
             "PAGE_DESCRIPTION": "Taiga is a project management platform for startups and agile developers & designers who want a simple, beautiful tool that makes work truly enjoyable."
         }
     },
