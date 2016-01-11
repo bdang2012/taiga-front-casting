@@ -5,11 +5,20 @@ class CastingController
         "tgCastingService",
         "$tgModel",
         "$tgLocation",
-        "$tgNavUrls"
+        "$tgNavUrls",
+
     ]
 
     constructor: (@currentUserService,@auth,@castingService,@model,@location,@navUrls) ->
+        taiga.defineImmutableProperty(@, "projects", () => @currentUserService.projects.get("all"))
+        taiga.defineImmutableProperty(@, "inventory", () => @currentUserService.inventory.get("all"))
         return
+
+    openActivateAgentLightbox: (user) ->
+        if confirm 'Promote this user to be Agent: ' + user.get("full_name") + "?"
+            userChanged = user.set("is_agent",true)
+            # this.usersService.change_is_agent(userChanged)
+            location.reload()
 
     onSuccess = (response) ->
         console.log('on success')

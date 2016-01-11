@@ -398,6 +398,21 @@ configure = ($routeProvider, $locationProvider, $httpProvider, $provide, $tgEven
     $routeProvider.when("/permission-denied",
         {templateUrl: "error/permission-denied.html"})
 
+    # casting
+    $routeProvider.when("/users/",
+      {
+        templateUrl: "users/listing/users-listing.html",
+        access: {
+          requiresLogin: true
+        },
+        title: "PROJECTS.PAGE_TITLE",
+        description: "PROJECTS.PAGE_DESCRIPTION",
+        loader: true,
+        controller: "UsersListing",
+        controllerAs: "vm"
+      }
+    )
+
     $routeProvider.otherwise({redirectTo: "/not-found"})
     $locationProvider.html5Mode({enabled: true, requireBase: false})
 

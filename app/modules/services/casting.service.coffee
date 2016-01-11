@@ -22,10 +22,14 @@ bindMethods = taiga.bindMethods
 
 
 class CastingService extends taiga.Service
-    @.$inject = ["tgResources"]
+    @.$inject = ["tgResources","$projectUrl", "tgLightboxFactory"]
 
-    constructor: (@rs) ->
+    constructor: (@rs,@projectUrl, @lightboxFactory) ->
         bindMethods(@)
+
+
+    change_is_agent: (user) ->
+        return @rs.users.change_is_agent(user)
 
     getUserByEmail: (email) ->
         return @rs.casting.getUserByEmail(email)
@@ -42,5 +46,7 @@ class CastingService extends taiga.Service
             console.log("bdlog: user not exist .... create now")
             return binhRs.casting.createUserForFacebook(email,username)
         return promise
-    
+
+
+
 angular.module("taigaCommon").service("tgCastingService", CastingService)

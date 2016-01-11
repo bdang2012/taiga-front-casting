@@ -1,0 +1,8 @@
+div.project-list-wrapper.centered
+    div
+        h1 Inventory
+            table(style="width: 100%;")
+                tr(tg-repeat="user in vm.inventory")
+                    td(style="text-transform: capitalize") {{user.get('full_name')}} 
+                    td(style="text-transform: capitalize; color:blue" align="right")
+                        a(href="" ng-click="vm.openActivateAgentLightbox(user)") Promote Agent
