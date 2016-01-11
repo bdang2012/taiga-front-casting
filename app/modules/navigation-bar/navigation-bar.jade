@@ -12,6 +12,19 @@ nav.navbar(ng-if="vm.isEnabledHeader")
         //    title="{{'PROJECT.NAVIGATION.DISCOVER_TITLE' | translate}}",
         //    translate="PROJECT.NAVIGATION.DISCOVER")
 
+        a(  ng-if="vm.isProducer"
+            href="/agents",
+            title="Agents",
+            translate="Agents",
+            style="color: yellow"
+            )
+        a(  ng-if="vm.isProducerOrAgent"
+            href="/users",
+            title="Inventory",
+            translate="Inventory",
+            style="color: red"
+        )
+
         a(
             href="https://taiga.io/support/",
             target="_blank",

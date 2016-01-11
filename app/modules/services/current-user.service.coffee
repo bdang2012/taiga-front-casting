@@ -118,4 +118,20 @@ class CurrentUserService
 
         return @.projects
 
+    isProducer: ->
+        console.log("<<<<<bdlog: in current-suer.service.coffee >>>>")
+        if !@._user
+            return false
+
+        return @._user.get("is_producer")
+
+    isAgent: ->
+        if !@._user
+            return false
+        return @._user.get("is_agent")
+
+    isProducerOrAgent: ->
+        return (@.isProducer() or @.isAgent() )
+
+
 angular.module("taigaCommon").service("tgCurrentUserService", CurrentUserService)

@@ -329,6 +329,7 @@ configure = ($routeProvider, $locationProvider, $httpProvider, $provide, $tgEven
         {
             templateUrl: "profile/profile.html",
             loader: true,
+            disableHeader: false,
             controller: "Profile",
             controllerAs: "vm"
         }
