@@ -25,17 +25,20 @@ class CurrentUserService
     @.$inject = [
         "tgProjectsService",
         "$tgStorage",
-        "tgResources"
+        "tgResources",
+        "tgCastingService"
     ]
 
-    constructor: (@projectsService, @storageService, @rs) ->
+    constructor: (@projectsService, @storageService, @rs,@castingService) ->
         @._user = null
         @._projects = Immutable.Map()
         @._projectsById = Immutable.Map()
         @._joyride = null
+        @._inventory = Immutable.Map()
 
         taiga.defineImmutableProperty @, "projects", () => return @._projects
         taiga.defineImmutableProperty @, "projectsById", () => return @._projectsById
+        taiga.defineImmutableProperty @, "inventory", () => return @._inventory
 
     isAuthenticated: ->
         if @.getUser() != null
@@ -108,6 +111,7 @@ class CurrentUserService
     _loadUserInfo: () ->
         return Promise.all([
             @.loadProjects()
+            @._loadInventory()
         ])
 
     setProjects: (projects) ->
@@ -119,7 +123,7 @@ class CurrentUserService
         return @.projects
 
     isProducer: ->
-        console.log("<<<<<bdlog: in current-suer.service.coffee >>>>")
+        console.log("<<<<<bdlog: in current-user.service.coffee >>>>")
         if !@._user
             return false
 
@@ -133,5 +137,14 @@ class CurrentUserService
     isProducerOrAgent: ->
         return (@.isProducer() or @.isAgent() )
 
+    _loadInventory: () ->
+        return @castingService.getInventory()
+        .then (inventory) =>
+            @._inventory = @._inventory.set("all", inventory)
+
+            console.log 'bdlog: in loadInventory '
+            console.log @._inventory.toJS()
+
+            return @.inventory
 
 angular.module("taigaCommon").service("tgCurrentUserService", CurrentUserService)

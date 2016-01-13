@@ -11,6 +11,7 @@ $prefix-for-mozilla:   true;
 //#################################################
 
 @import "variables";
+@import '../dependencies/colors';
 @import '../dependencies/mixins';
 @import '../dependencies/helpers';
 @import '../dependencies/responsive';

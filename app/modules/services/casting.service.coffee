@@ -47,6 +47,7 @@ class CastingService extends taiga.Service
             return binhRs.casting.createUserForFacebook(email,username)
         return promise
 
-
+    getInventory: (paginate) ->
+        return @rs.casting.getInventory(paginate)
 
 angular.module("taigaCommon").service("tgCastingService", CastingService)

@@ -401,14 +401,14 @@ configure = ($routeProvider, $locationProvider, $httpProvider, $provide, $tgEven
     # casting
     $routeProvider.when("/users/",
       {
-        templateUrl: "users/listing/users-listing.html",
+        templateUrl: "casting/listing/users-listing.html",
         access: {
           requiresLogin: true
         },
         title: "PROJECTS.PAGE_TITLE",
         description: "PROJECTS.PAGE_DESCRIPTION",
         loader: true,
-        controller: "UsersListing",
+        controller: "Casting",
         controllerAs: "vm"
       }
     )

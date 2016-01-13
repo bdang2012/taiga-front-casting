@@ -19,7 +19,7 @@
 
 Resource = (urlsService, http,  config, paginateResponseService) ->
     service = {}
-    
+
     service.getUserByEmail = (email) ->
         url = config.get("api") + 'casting/by_email'
         httpOptions = {}
@@ -45,6 +45,21 @@ Resource = (urlsService, http,  config, paginateResponseService) ->
         }
 
         return http.post(url, params, httpOptions).then (result) ->
+            return Immutable.fromJS(result.data)
+
+    service.getInventory = (paginate=false) ->
+        url = urlsService.resolve("users")
+        httpOptions = {}
+
+        if !paginate
+            httpOptions.headers = {
+                "x-disable-pagination": "1"
+            }
+
+        params = {"order_by": "memberships__user_order"}
+
+        return http.get(url, params, httpOptions)
+        .then (result) ->
             return Immutable.fromJS(result.data)
 
     return () ->
