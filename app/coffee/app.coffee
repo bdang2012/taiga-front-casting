@@ -399,7 +399,7 @@ configure = ($routeProvider, $locationProvider, $httpProvider, $provide, $tgEven
         {templateUrl: "error/permission-denied.html"})
 
     # casting
-    $routeProvider.when("/users/",
+    $routeProvider.when("/casting/inventory",
       {
         templateUrl: "casting/listing/users-listing.html",
         access: {
@@ -412,6 +412,20 @@ configure = ($routeProvider, $locationProvider, $httpProvider, $provide, $tgEven
         controllerAs: "vm"
       }
     )
+    $routeProvider.when("/casting/agents/",
+      {
+        templateUrl: "casting/listing/agents-listing.html",
+        access: {
+          requiresLogin: true
+        },
+        title: "Agents Listing",
+        description: "Agents Listing",
+        loader: true,
+        controller: "Casting",
+        controllerAs: "vm"
+      }
+    )
+
 
     $routeProvider.otherwise({redirectTo: "/not-found"})
     $locationProvider.html5Mode({enabled: true, requireBase: false})

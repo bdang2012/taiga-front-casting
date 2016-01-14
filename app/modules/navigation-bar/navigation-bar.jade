@@ -13,13 +13,13 @@ nav.navbar(ng-if="vm.isEnabledHeader")
         //    translate="PROJECT.NAVIGATION.DISCOVER")
 
         a(  ng-if="vm.isProducer"
-            href="/agents",
+            href="/casting/agents",
             title="Agents",
             translate="Agents",
             style="color: yellow"
             )
         a(  ng-if="vm.isProducerOrAgent"
-            href="/users",
+            href="/casting/inventory",
             title="Inventory",
             translate="Inventory",
             style="color: red"

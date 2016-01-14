@@ -12,13 +12,21 @@ class CastingController
     constructor: (@currentUserService,@auth,@castingService,@model,@location,@navUrls) ->
         taiga.defineImmutableProperty(@, "projects", () => @currentUserService.projects.get("all"))
         taiga.defineImmutableProperty(@, "inventory", () => @currentUserService.inventory.get("all"))
+        taiga.defineImmutableProperty(@, "agents", () => @currentUserService.agents.get("all"))
         return
 
     openActivateAgentLightbox: (user) ->
         if confirm 'Promote this user to be Agent: ' + user.get("full_name") + "?"
             userChanged = user.set("is_agent",true)
-            # this.usersService.change_is_agent(userChanged)
+            this.castingService.change_is_agent(userChanged)
             location.reload()
+
+    openDeactivateAgentLightbox: (user) ->
+        if confirm 'Are you sure you want to deactivate Agent ' + user.get("full_name") + "?"
+            userChanged = user.set("is_agent",false)
+            this.castingService.change_is_agent(userChanged)
+            location.reload()
+
 
     onSuccess = (response) ->
         console.log('on success')

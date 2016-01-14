@@ -50,4 +50,11 @@ class CastingService extends taiga.Service
     getInventory: (paginate) ->
         return @rs.casting.getInventory(paginate)
 
+    getAgents: (paginate) ->
+        return @rs.casting.getAgents(paginate)
+
+    change_is_agent: (user) ->
+        return @rs.casting.change_is_agent(user)
+
+
 angular.module("taigaCommon").service("tgCastingService", CastingService)

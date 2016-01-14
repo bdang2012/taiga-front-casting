@@ -35,10 +35,12 @@ class CurrentUserService
         @._projectsById = Immutable.Map()
         @._joyride = null
         @._inventory = Immutable.Map()
+        @._agents = Immutable.Map()
 
         taiga.defineImmutableProperty @, "projects", () => return @._projects
         taiga.defineImmutableProperty @, "projectsById", () => return @._projectsById
         taiga.defineImmutableProperty @, "inventory", () => return @._inventory
+        taiga.defineImmutableProperty @, "agents", () => return @._agents
 
     isAuthenticated: ->
         if @.getUser() != null
@@ -108,11 +110,6 @@ class CurrentUserService
 
                     resolve(@._joyride)
 
-    _loadUserInfo: () ->
-        return Promise.all([
-            @.loadProjects()
-            @._loadInventory()
-        ])
 
     setProjects: (projects) ->
         @._projects = @._projects.set("all", projects)
@@ -146,5 +143,21 @@ class CurrentUserService
             console.log @._inventory.toJS()
 
             return @.inventory
+            _loadAgents: () ->
+
+    _loadAgents: () ->
+        return @castingService.getAgents()
+        .then (agents) =>
+            @._agents = @._agents.set("all", agents)
+
+            return @.agents
+
+
+    _loadUserInfo: () ->
+        return Promise.all([
+            @.loadProjects()
+            @._loadInventory()
+            @._loadAgents()
+        ])
 
 angular.module("taigaCommon").service("tgCurrentUserService", CurrentUserService)

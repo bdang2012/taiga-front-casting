@@ -62,6 +62,28 @@ Resource = (urlsService, http,  config, paginateResponseService) ->
         .then (result) ->
             return Immutable.fromJS(result.data)
 
+
+    service.getAgents = (paginate=false) ->
+        url = urlsService.resolve("by_agents")
+
+        httpOptions = {}
+
+        if !paginate
+            httpOptions.headers = {
+                "x-disable-pagination": "1"
+            }
+
+        params = {}
+
+        return http.get(url, params, httpOptions)
+        .then (result) ->
+            return Immutable.fromJS(result.data)
+
+    service.change_is_agent = (user) ->
+        url =  urlsService.resolve("users") + "/change_is_agent"
+        return http.post(url, user)
+
+
     return () ->
         return {"casting": service}
 
