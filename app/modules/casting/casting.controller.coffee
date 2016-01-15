@@ -81,3 +81,4 @@ class CastingController
 
     
 angular.module("taigaCasting").controller("Casting", CastingController)
+

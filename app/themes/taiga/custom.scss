@@ -118,6 +118,11 @@ tg-project-menu {
     background-image: url('../images/menu.png');
 }
 
+tg-casting-menu {
+    background-color: $primary-dark;
+    background-image: url('../images/menu-casting.png');
+}
+
 .main-nav {
     svg path {
         fill: $white;

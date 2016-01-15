@@ -1,8 +1,9 @@
-div.project-list-wrapper.centered
-    div
-        h1 Inventory
-            table(style="width: 100%;")
-                tr(tg-repeat="user in vm.inventory")
-                    td(style="text-transform: capitalize") {{user.get('full_name')}} 
-                    td(style="text-transform: capitalize; color:blue" align="right")
-                        a(href="" ng-click="vm.openActivateAgentLightbox(user)") Promote Agent
+doctype html
+
+div.wrapper(ng-controller="Casting as ctrl", ng-init="section='team'")
+    tg-casting-menu
+    sidebar.menu-secondary
+        include team-filters
+    section.main.team
+        include mainTitle
+        include team-table

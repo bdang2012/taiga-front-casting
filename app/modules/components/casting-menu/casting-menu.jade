@@ -1,0 +1,93 @@
+nav.menu
+    div(class="menu-container")
+        ul(class="main-nav")
+            li(id="nav-search")
+                a(
+                    href=""
+                    ng-click="vm.search()"
+                    ng-class="{active: true}"
+                    aria-label="{{'PROJECT.SECTION.SEARCH' | translate}}"
+                    tabindex="1"
+                 )
+                    span.icon.icon-search
+                    span.helper(translate="PROJECT.SECTION.SEARCH")
+
+             li(id="nav-timeline")
+                 a(
+                    tg-nav="project:project=vm.project.get('slug')"
+                    ng-class="{active: true}"
+                    aria-label="{{'PROJECT.SECTION.TIMELINE' | translate}}"
+                    tabindex="2"
+                 )
+                    include ../../../svg/timeline.svg
+                    span.helper(translate="PROJECT.SECTION.TIMELINE")
+
+            li(id="nav-backlog", ng-if="vm.menu.get('backlog')")
+                a(
+                    tg-nav="project-backlog:project=vm.project.get('slug')"
+                    ng-class="{active: true}"
+                    aria-label="{{'PROJECT.SECTION.BACKLOG' | translate}}"
+                    tabindex="2"
+                )
+                    span.icon.icon-scrum
+                    span.helper(translate="PROJECT.SECTION.BACKLOG")
+
+            li(id="nav-kanban")
+                a(
+                    tg-nav="project-kanban:project=vm.project.get('slug')"
+                    ng-class="{active: true}"
+                    aria-label="{{'PROJECT.SECTION.KANBAN' | translate}}"
+                    tabindex="3"
+                )
+                    span.icon.icon-kanban
+                    span.helper(translate="PROJECT.SECTION.KANBAN")
+
+            li(id="nav-issues")
+                a(
+                    tg-nav="project-issues:project=vm.project.get('slug')"
+                    ng-class="{active: true}"
+                    aria-label="{{'PROJECT.SECTION.ISSUES' | translate}}"
+                    tabindex="4"
+                )
+                    span.icon.icon-issues
+                    span.helper(translate="PROJECT.SECTION.ISSUES")
+
+            li(id="nav-wiki")
+                a(
+                    tg-nav="project-wiki:project=vm.project.get('slug')"
+                    ng-class="{active: true}"
+                    aria-label="{{'PROJECT.SECTION.WIKI' | translate}}"
+                    tabindex="5"
+                )
+                    span.icon.icon-wiki
+                    span.helper(translate="PROJECT.SECTION.WIKI")
+
+            li(id="nav-team")
+                a(
+                    tg-nav="project-team:project=vm.project.get('slug')"
+                    ng-class="{active: true}"
+                    aria-label="{{'PROJECT.SECTION.TEAM' | translate}}"
+                    tabindex="6"
+                )
+                    span(class="icon icon-team")
+                    span.helper(translate="PROJECT.SECTION.TEAM")
+
+            li(id="nav-video")
+                a(
+                    ng-href="{{vm.project.get('videoconferenceUrl')}}"
+                    target="_blank"
+                    aria-label="{{'PROJECT.SECTION.MEETUP' | translate}}"
+                    tabindex="7"
+                )
+                    span.icon.icon-video
+                    span.helper(translate="PROJECT.SECTION.MEETUP")
+
+            li(id="nav-admin")
+                a(
+                    tg-nav="project-admin-home:project=vm.project.get('slug')"
+                    ng-class="{active: true}"
+                    aria-label="{{'PROJECT.SECTION.ADMIN' | translate}}"
+                    tabindex="8"
+                )
+                    span.icon.icon-settings
+                    span.helper(translate="PROJECT.SECTION.ADMIN")

@@ -7,6 +7,13 @@ tg-project-menu {
     text-transform: uppercase;
 }
 
+tg-casting-menu {
+    background-position: 0 -300px;
+    min-height: $main-height;
+    padding: 1rem 0;
+    text-transform: uppercase;
+}
+
 .main-nav {
     list-style: none;
     padding: 0;
