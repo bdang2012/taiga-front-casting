@@ -63,6 +63,7 @@ class RolesController extends mixOf(taiga.Controller, taiga.PageMixin, taiga.Fil
             description = @scope.project.description
             @appMetaService.setAll(title, description)
 
+
         promise.then null, @.onInitialDataError.bind(@)
 
     loadProject: ->

@@ -83,6 +83,18 @@ Resource = (urlsService, http,  config, paginateResponseService) ->
         url =  urlsService.resolve("users") + "/change_is_agent"
         return http.post(url, user)
 
+    service.getCastingRoles = (paginate=false) ->
+        url = config.get("api") + 'casting/roles_list'
+        httpOptions = {}
+
+        params = {
+
+        }
+
+        return http.get(url, params, httpOptions)
+        .then (result) ->
+            return Immutable.fromJS(result.data)
+
 
     return () ->
         return {"casting": service}

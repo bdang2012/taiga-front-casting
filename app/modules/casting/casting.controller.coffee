@@ -1,5 +1,11 @@
-class CastingController
+taiga = @.taiga
+
+mixOf = @.taiga.mixOf
+
+class CastingController extends mixOf(taiga.Controller, taiga.PageMixin)
     @.$inject = [
+        "$scope",
+        "$rootScope",
         "tgCurrentUserService",
         "$tgAuth",
         "tgCastingService",
@@ -9,11 +15,18 @@ class CastingController
 
     ]
 
-    constructor: (@currentUserService,@auth,@castingService,@model,@location,@navUrls) ->
+    constructor: (@scope, @rootscope,@currentUserService,@auth,@castingService,@model,@location,@navUrls) ->
         taiga.defineImmutableProperty(@, "projects", () => @currentUserService.projects.get("all"))
         taiga.defineImmutableProperty(@, "inventory", () => @currentUserService.inventory.get("all"))
         taiga.defineImmutableProperty(@, "agents", () => @currentUserService.agents.get("all"))
-        return
+        # taiga.defineImmutableProperty(@, "casting_roles", () => @currentUserService.cating_roles.get("all"))
+
+        promise = @castingService.getCastingRoles(false)
+
+        promise.then (data) =>
+            console.log('promise......done1')
+            @scope.castingRoles = data.toJS()
+            console.log('promise......done2')
 
     openActivateAgentLightbox: (user) ->
         if confirm 'Promote this user to be Agent: ' + user.get("full_name") + "?"
@@ -79,6 +92,13 @@ class CastingController
             return
         ), scope: 'public_profile, email, user_friends'
 
-    
+    loadRoles: ->
+        @scope.castingRoles = @castingService.getCastingRoles()
+        return @scope.castingRoles
+
+    loadInitialData: ->
+        promise = @.loadRoles()
+        return promise
+
 angular.module("taigaCasting").controller("Casting", CastingController)
 
