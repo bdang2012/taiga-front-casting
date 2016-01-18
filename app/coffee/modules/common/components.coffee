@@ -784,3 +784,26 @@ TgMainTitleDirective = ($translate) ->
     }
 
 module.directive("tgMainTitle", ["$translate",  TgMainTitleDirective])
+
+#############################################################################
+## Main title directive
+#############################################################################
+
+TgCastingMainTitleDirective = ($translate) ->
+    link = ($scope, $el, $attrs) ->
+        $attrs.$observe "i18nSectionName", (i18nSectionName) ->
+            $scope.sectionName = $translate.instant(i18nSectionName)
+
+        $scope.$on "$destroy", ->
+            $el.off()
+
+    return {
+        link: link
+        templateUrl: "common/components/casting-main-title.html"
+        scope: {
+            projectName : "=projectName"
+        }
+    }
+
+module.directive("tgCastingMainTitle", ["$translate",  TgCastingMainTitleDirective])
+

@@ -32,7 +32,7 @@ toString = @.taiga.toString
 #############################################################################
 
 class PageMixin
-    fillUsersAndRoles: (users, roles) ->
+    fillUsersAndRoles: (users, roles, forCasting = false) ->
 
         activeUsers = _.filter(users, (user) => user.is_active)
         @scope.activeUsers = _.sortBy(activeUsers, "full_name_display")
@@ -42,10 +42,20 @@ class PageMixin
         @scope.usersById = groupBy(@scope.users, (e) -> e.id)
 
         @scope.roles = _.sortBy(roles, "order")
-        computableRoles = _(@scope.project.members).map("role").uniq().value()
-        @scope.computableRoles = _(roles).filter("computable")
-                                         .filter((x) -> _.contains(computableRoles, x.id))
-                                         .value()
+
+        if forCasting
+
+            #computableRoles = _(@scope.project.members).map("role").uniq().value()
+            #   @scope.computableRoles = _(roles).filter("computable")
+            #                                 .filter((x) -> _.contains(computableRoles, x.id))
+            #                                 .value()
+
+        else
+            computableRoles = _(@scope.project.members).map("role").uniq().value()
+            @scope.computableRoles = _(roles).filter("computable")
+                                             .filter((x) -> _.contains(computableRoles, x.id))
+                                             .value()
+
     loadUsersAndRoles: ->
         promise = @q.all([
             @rs.projects.usersList(@scope.projectId),

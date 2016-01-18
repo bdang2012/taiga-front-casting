@@ -21,12 +21,15 @@ class CastingController extends mixOf(taiga.Controller, taiga.PageMixin)
         taiga.defineImmutableProperty(@, "agents", () => @currentUserService.agents.get("all"))
         # taiga.defineImmutableProperty(@, "casting_roles", () => @currentUserService.cating_roles.get("all"))
 
-        promise = @castingService.getCastingRoles(false)
 
-        promise.then (data) =>
-            console.log('promise......done1')
-            @scope.castingRoles = data.toJS()
-            console.log('promise......done2')
+        @scope.tasksEnabled = true
+        @scope.issuesEnabled = true
+        @scope.wikiEnabled= true
+        @scope.castingMembers = @currentUserService.inventory.get("all").toJS()
+
+        promise = @.loadInitialData()
+        promise.then  =>
+            console.log('done initializing CastingController')
 
     openActivateAgentLightbox: (user) ->
         if confirm 'Promote this user to be Agent: ' + user.get("full_name") + "?"
@@ -93,12 +96,34 @@ class CastingController extends mixOf(taiga.Controller, taiga.PageMixin)
         ), scope: 'public_profile, email, user_friends'
 
     loadRoles: ->
-        @scope.castingRoles = @castingService.getCastingRoles()
-        return @scope.castingRoles
+        promise = @castingService.getCastingRoles(false)
+        promise.then (data) =>
+            @scope.castingRoles = data.toJS()
+            return @scope.castingRoles
+
+    loadMembers: ->
+        console.log('xxxxxloading members')
+        user = @auth.getUser()
+
+        # Calculate totals
+        @scope.totals = {}
+        for member in @scope.activeUsers
+            @scope.totals[member.id] = 0
+
+        # Get current user
+        @scope.currentUser = _.find(@scope.activeUsers, {id: user?.id})
+
+        # Get member list without current user
+        @scope.memberships = _.reject(@scope.activeUsers, {id: user?.id})
+
+        console.log('done xxxxxloading members')
+
 
     loadInitialData: ->
         promise = @.loadRoles()
-        return promise
+        return promise.then =>
+            @.fillUsersAndRoles(@scope.castingMembers, @scope.castingRoles, true)
+            return @.loadMembers()
 
 angular.module("taigaCasting").controller("Casting", CastingController)
 
