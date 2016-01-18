@@ -22,14 +22,18 @@ class CastingController extends mixOf(taiga.Controller, taiga.PageMixin)
         # taiga.defineImmutableProperty(@, "casting_roles", () => @currentUserService.cating_roles.get("all"))
 
 
+
         @scope.tasksEnabled = true
         @scope.issuesEnabled = true
         @scope.wikiEnabled= true
-        @scope.castingMembers = @currentUserService.inventory.get("all").toJS()
 
-        promise = @.loadInitialData()
-        promise.then  =>
-            console.log('done initializing CastingController')
+        user = @auth.getUser()
+        if user
+            @scope.castingMembers = @currentUserService.inventory.get("all").toJS()
+
+            promise = @.loadInitialData()
+            promise.then =>
+                console.log('done initializing CastingController')
 
     openActivateAgentLightbox: (user) ->
         if confirm 'Promote this user to be Agent: ' + user.get("full_name") + "?"

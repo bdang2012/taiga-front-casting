@@ -139,8 +139,9 @@ class AuthService extends taiga.Service
 
         @._setTheme()
         @._setLocales()
-        FB.logout (response) ->
-            console.log('bdlog: fb logout')
+        if FB
+            FB.logout (response) ->
+                console.log('bdlog: fb logout')
 
 
     register: (data, type, existing) ->
