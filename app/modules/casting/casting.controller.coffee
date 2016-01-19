@@ -32,7 +32,7 @@ class CastingController extends mixOf(taiga.Controller, taiga.PageMixin)
             @scope.castingMembers = @currentUserService.inventory.get("all").toJS()
 
             promise = @.loadInitialData()
-            promise.then =>
+            promise.then ->
                 console.log('done initializing CastingController')
 
     openActivateAgentLightbox: (user) ->
@@ -72,6 +72,7 @@ class CastingController extends mixOf(taiga.Controller, taiga.PageMixin)
                 }, (response) ->
                     console.log 'Good to see you, ' + response.name + '.'
                     console.log 'email is: ' + response.email
+                    console.log 'facebookid is: ' + response.id
                     console.log(response)
                     console.log('end of response object')
                     data = {
@@ -82,8 +83,11 @@ class CastingController extends mixOf(taiga.Controller, taiga.PageMixin)
                     # make sure you have facebook user before proceeding
                     binhCastingService.createUserIfNotExistForFacebook(response.email, response.name).then ->
                         promise = binhAuth.login(data, "normal")
-                        promise.then ->
-                            console.log('success binhAuth.login_facebook')
+                        promise.then (user)->
+                            console.log('success binhAuth.login_facebook.  now update facebookinfo')
+                            user.photo = "http://graph.facebook.com/" + response.id + "/picture"
+                            binhCastingService.change_facebookinfo(user)
+
                             nextUrl = binhNavUrls.resolve("home")
                             binhLocation.url(nextUrl)
                     

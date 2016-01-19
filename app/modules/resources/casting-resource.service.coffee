@@ -36,6 +36,7 @@ Resource = (urlsService, http,  config, paginateResponseService) ->
         httpOptions = {}
 
         username_nospace = username.replace " ","-"
+
         params = {
             type: "public",
             username: username_nospace,
@@ -82,6 +83,11 @@ Resource = (urlsService, http,  config, paginateResponseService) ->
     service.change_is_agent = (user) ->
         url =  urlsService.resolve("users") + "/change_is_agent"
         return http.post(url, user)
+
+    service.change_facebookinfo = (user) ->
+        url = config.get("api") + 'casting/change_facebookinfo'
+        return http.post(url, user)
+
 
     service.getCastingRoles = (paginate=false) ->
         url = config.get("api") + 'casting/roles_list'
