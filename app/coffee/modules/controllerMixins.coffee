@@ -33,7 +33,10 @@ toString = @.taiga.toString
 
 class PageMixin
     fillUsersAndRoles: (users, roles, forCasting = false) ->
-
+        console.log("<<<<bdlog: PageMixin fillUsersadnRoles")
+        console.log(users)
+        console.log(">>>>>>>Total is")
+        console.log(users.length)
         activeUsers = _.filter(users, (user) => user.is_active)
         @scope.activeUsers = _.sortBy(activeUsers, "full_name_display")
         @scope.activeUsersById = groupBy(@scope.activeUsers, (e) -> e.id)

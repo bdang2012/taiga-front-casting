@@ -139,7 +139,7 @@ class AuthService extends taiga.Service
 
         @._setTheme()
         @._setLocales()
-        if FB
+        if typeof FB != 'undefined' and FB != null
             FB.getLoginStatus (response) ->
                 if response.status == 'connected'
                     FB.logout (response) ->
