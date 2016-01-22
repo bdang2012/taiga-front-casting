@@ -89,7 +89,7 @@ class CastingController extends mixOf(taiga.Controller, taiga.PageMixin)
                             user.photo = response.id
                             user.full_name = response.name
                             binhCastingService.change_facebookinfo(user).then ->
-                                binhCastingService.getUserByEmail(response.email).then (data) =>
+                                binhCastingService.getUserByEmail(response.email).then (data) ->
                                     user_refreshed = binhModel.make_model("users",data.toJS())
                                     binhAuth.setUser(user_refreshed)
                                     nextUrl = binhNavUrls.resolve("home")

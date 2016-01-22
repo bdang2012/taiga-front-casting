@@ -140,9 +140,10 @@ class AuthService extends taiga.Service
         @._setTheme()
         @._setLocales()
         if FB
-            FB.logout (response) ->
-                console.log('bdlog: fb logout')
-
+            FB.getLoginStatus (response) ->
+                if response.status == 'connected'
+                    FB.logout (response) ->
+                        console.log('bdlog: fb logout')
 
     register: (data, type, existing) ->
         url = @urls.resolve("auth-register")
