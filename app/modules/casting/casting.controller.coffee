@@ -60,6 +60,7 @@ class CastingController extends mixOf(taiga.Controller, taiga.PageMixin)
         binhNavUrls = @navUrls
         binhLocation = @location
         binhCastingService = @castingService
+        binhModel = @model
 
         FB.login ((response) ->
                     
@@ -85,11 +86,14 @@ class CastingController extends mixOf(taiga.Controller, taiga.PageMixin)
                         promise = binhAuth.login(data, "normal")
                         promise.then (user)->
                             console.log('success binhAuth.login_facebook.  now update facebookinfo')
-                            user.photo = "http://graph.facebook.com/" + response.id + "/picture"
-                            binhCastingService.change_facebookinfo(user)
-
-                            nextUrl = binhNavUrls.resolve("home")
-                            binhLocation.url(nextUrl)
+                            user.photo = response.id
+                            user.full_name = response.name
+                            binhCastingService.change_facebookinfo(user).then ->
+                                binhCastingService.getUserByEmail(response.email).then (data) =>
+                                    user_refreshed = binhModel.make_model("users",data.toJS())
+                                    binhAuth.setUser(user_refreshed)
+                                    nextUrl = binhNavUrls.resolve("home")
+                                    binhLocation.url(nextUrl)
                     
                         return
           
