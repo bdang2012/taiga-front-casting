@@ -63,7 +63,6 @@ Resource = (urlsService, http,  config, paginateResponseService) ->
         .then (result) ->
             return Immutable.fromJS(result.data)
 
-
     service.getAgents = (paginate=false) ->
         url = urlsService.resolve("by_agents")
 
@@ -89,6 +88,19 @@ Resource = (urlsService, http,  config, paginateResponseService) ->
         return http.post(url, user)
 
 
+    service.getCastingMembers = (paginate=false) ->
+        url = config.get("api") + 'casting/members_list'
+        httpOptions = {}
+
+        params = {
+
+        }
+
+        return http.get(url, params, httpOptions)
+        .then (result) ->
+            return Immutable.fromJS(result.data)
+
+
     service.getCastingRoles = (paginate=false) ->
         url = config.get("api") + 'casting/roles_list'
         httpOptions = {}
@@ -100,7 +112,6 @@ Resource = (urlsService, http,  config, paginateResponseService) ->
         return http.get(url, params, httpOptions)
         .then (result) ->
             return Immutable.fromJS(result.data)
-
 
     return () ->
         return {"casting": service}

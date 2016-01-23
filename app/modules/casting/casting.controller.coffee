@@ -29,7 +29,13 @@ class CastingController extends mixOf(taiga.Controller, taiga.PageMixin)
 
         user = @auth.getUser()
         if user
-            @scope.castingMembers = @currentUserService.inventory.get("all").toJS()
+
+            promise = @castingService.getCastingMembers(false)
+            promise.then (data) =>
+                @scope.castingMembers = data.toJS()
+
+            #@scope.castingMembers = @currentUserService.inventory.get("all").toJS()
+            #@scope.castingMembers = @castingService.inventory.get("all").toJS()
 
             promise = @.loadInitialData()
             promise.then ->
