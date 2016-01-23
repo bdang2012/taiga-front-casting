@@ -49,6 +49,7 @@ Resource = (urlsService, http,  config, paginateResponseService) ->
             return Immutable.fromJS(result.data)
 
     service.getInventory = (paginate=false) ->
+        """
         url = urlsService.resolve("users")
         httpOptions = {}
 
@@ -58,6 +59,17 @@ Resource = (urlsService, http,  config, paginateResponseService) ->
             }
 
         params = {"order_by": "memberships__user_order"}
+
+        return http.get(url, params, httpOptions)
+        .then (result) ->
+            return Immutable.fromJS(result.data)
+        """
+        url = config.get("api") + 'casting/members_list'
+        httpOptions = {}
+
+        params = {
+
+        }
 
         return http.get(url, params, httpOptions)
         .then (result) ->
