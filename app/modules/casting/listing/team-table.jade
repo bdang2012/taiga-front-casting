@@ -35,4 +35,4 @@ h2(ng-show="memberships.length")
     span  {{filtersRole.name || ("TEAM.SECTION_FILTER_ALL" | translate)}}
     span ({{memberships.length}})
 
-section.table-team.basic-table(tg-team-members, memberships="memberships", stats="stats", filtersq="filtersQ", filtersrole="filtersRole", issuesEnabled="issuesEnabled", tasksenabled="tasksEnabled", wikienabled="wikiEnabled")
+section.table-team.basic-table(tg-casting-team-members, memberships="memberships", stats="stats", filtersq="filtersQ", filtersrole="filtersRole", issuesEnabled="issuesEnabled", tasksenabled="tasksEnabled", wikienabled="wikiEnabled")

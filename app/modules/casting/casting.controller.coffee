@@ -144,4 +144,3 @@ class CastingController extends mixOf(taiga.Controller, taiga.PageMixin)
             return @.loadMembers()
 
 angular.module("taigaCasting").controller("Casting", CastingController)
-

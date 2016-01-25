@@ -31,6 +31,17 @@ Resource = (urlsService, http,  config, paginateResponseService) ->
         return http.get(url, params, httpOptions).then (result) ->
             return Immutable.fromJS(result.data)
 
+    service.getUserByUserId = (userid) ->
+        url = config.get("api") + 'casting/by_userid'
+        httpOptions = {}
+
+        params = {
+            userid: userid
+        }
+
+        return http.get(url, params, httpOptions).then (result) ->
+            return Immutable.fromJS(result.data)
+
     service.createUserForFacebook = (email, username) ->
         url = config.get("api") + 'auth/register'
         httpOptions = {}

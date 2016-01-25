@@ -89,6 +89,86 @@ class UserSettingsController extends mixOf(taiga.Controller, taiga.PageMixin)
 
 module.controller("UserSettingsController", UserSettingsController)
 
+#############################################################################
+## User settings Controller
+#############################################################################
+
+class CastingUserSettingsController extends mixOf(taiga.Controller, taiga.PageMixin)
+    @.$inject = [
+        "$scope",
+        "$rootScope",
+        "$tgConfig",
+        "$tgRepo",
+        "$tgConfirm",
+        "$tgResources",
+        "$routeParams",
+        "$q",
+        "$tgLocation",
+        "$tgNavUrls",
+        "$tgAuth",
+        "$translate",
+        "$routeParams",
+        "tgResources",
+        "$tgModel"
+    ]
+
+    constructor: (@scope, @rootscope, @config, @repo, @confirm, @rs, @params, @q, @location, @navUrls,
+        @auth, @translate,@routeParams,@tgRs,@model) ->
+        @scope.sectionName = "USER_SETTINGS.MENU.SECTION_TITLE"
+
+        @scope.project = {}
+
+        if @routeParams.userid
+            userid = @routeParams.userid
+            binhScope = @scope
+            binhModel = @model
+            @tgRs.casting.getUserByUserId(userid).then (response) ->
+                userData = response.toJS()
+                binhScope.user = binhModel.make_model("users", userData)
+        else
+            @scope.user = @auth.getUser()
+
+        console.log("bdlog:<<<<<<userid is:")
+        console.log(@scope.user)
+        console.log(">>>>>>")
+
+        if !@scope.user
+            @location.path(@navUrls.resolve("permission-denied"))
+            @location.replace()
+
+        @scope.lang = @getLan()
+        @scope.theme = @getTheme()
+
+        maxFileSize = @config.get("maxUploadFileSize", null)
+        if maxFileSize
+            text = @translate.instant("USER_SETTINGS.AVATAR_MAX_SIZE", {"maxFileSize": sizeFormat(maxFileSize)})
+            @scope.maxFileSizeMsg = text
+
+        promise = @.loadInitialData()
+
+        promise.then null, @.onInitialDataError.bind(@)
+
+
+    loadInitialData: ->
+        @scope.availableThemes = @config.get("themes", [])
+
+        return @rs.locales.list().then (locales) =>
+            @scope.locales = locales
+            return locales
+
+    openDeleteLightbox: ->
+        @rootscope.$broadcast("deletelightbox:new", @scope.user)
+
+    getLan: ->
+        return @scope.user.lang ||
+            @translate.preferredLanguage()
+
+    getTheme: ->
+        return @scope.user.theme ||
+            @config.get("defaultTheme") ||
+            "taiga"
+
+module.controller("CastingUserSettingsController", CastingUserSettingsController)
 
 #############################################################################
 ## User Profile Directive
@@ -130,6 +210,47 @@ UserProfileDirective = ($confirm, $auth, $repo, $translate) ->
 
 module.directive("tgUserProfile", ["$tgConfirm", "$tgAuth", "$tgRepo", "$translate", UserProfileDirective])
 
+
+#############################################################################
+## Casting User Profile Directive
+#############################################################################
+
+CastingUserProfileDirective = ($confirm, $auth, $repo, $translate) ->
+    link = ($scope, $el, $attrs) ->
+        submit = debounce 2000, (event) =>
+            event.preventDefault()
+
+            form = $el.find("form").checksley()
+            return if not form.validate()
+
+            #changeEmail = $scope.user.isAttributeModified("email")
+            changeEmail = false
+            $scope.user.lang = $scope.lang
+            $scope.user.theme = $scope.theme
+
+            onSuccess = (data) =>
+                # $auth.setUser(data)
+
+                if changeEmail
+                    text = $translate.instant("USER_PROFILE.CHANGE_EMAIL_SUCCESS")
+                    $confirm.success(text)
+                else
+                    $confirm.notify('success')
+
+            onError = (data) =>
+                form.setErrors(data)
+                $confirm.notify('error', data._error_message)
+
+            $repo.save($scope.user).then(onSuccess, onError)
+
+        $el.on "submit", "form", submit
+
+        $scope.$on "$destroy", ->
+            $el.off()
+
+    return {link:link}
+
+module.directive("tgCastingUserProfile", ["$tgConfirm", "$tgAuth", "$tgRepo", "$translate", CastingUserProfileDirective])
 
 #############################################################################
 ## User Avatar Directive

@@ -37,6 +37,9 @@ class CastingService extends taiga.Service
     getUserByEmail: (email) ->
         return @rs.casting.getUserByEmail(email)
 
+    getUserByUserId: (userid) ->
+        return @rs.casting.getUserByUserId(userid)
+
     createUserIfNotExistForFacebook: (email,username, facebookid) ->
         binhRs = @.rs
         promise = @.getUserByEmail(email)

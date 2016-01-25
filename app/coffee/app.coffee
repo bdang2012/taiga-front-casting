@@ -425,6 +425,11 @@ configure = ($routeProvider, $locationProvider, $httpProvider, $provide, $tgEven
         controllerAs: "vm"
       }
     )
+    $routeProvider.when("/casting/user-profile/:userid",
+      {
+        templateUrl: "casting/listing/casting_user_profile.html",
+      }
+    )
 
 
     $routeProvider.otherwise({redirectTo: "/not-found"})
