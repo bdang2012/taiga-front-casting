@@ -108,6 +108,16 @@ ng-init="section='user-settings'")
                         maxlength="210"
                         )
 
+                    fieldset
+                        label(for="is_agent") Is Agent?
+                        input(
+                        type="checkbox"
+                        name="is_agent"
+                        id="is_agent"
+                        ng-model="user.is_agent"
+                        placeholder="Is Agent?"
+                        )
+
             fieldset.submit
                 button.button-green.submit-button(
                 type="submit"
