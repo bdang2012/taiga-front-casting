@@ -1,9 +1,9 @@
-div.project-list-wrapper.centered
+doctype html
 
-    div
-        h1 Agents
-            table(style="width: 100%;")
-                tr(tg-repeat="user in vm.agents ")
-                    td(style="text-transform: capitalize") {{user.get('full_name')}}
-                    td(style="text-transform: capitalize; color:blue" align="right")
-                        a(href="" ng-click="vm.openDeactivateAgentLightbox(user)") Deactivate
+div.wrapper(ng-controller="Casting as ctrl", ng-init="section='team'")
+    tg-casting-menu
+    sidebar.menu-secondary
+        include team-filters
+    section.main.team
+        include mainTitle_agent
+        include team-table_agent

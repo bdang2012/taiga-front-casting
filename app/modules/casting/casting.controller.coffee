@@ -134,6 +134,9 @@ class CastingController extends mixOf(taiga.Controller, taiga.PageMixin)
         # Get member list without current user
         @scope.memberships = _.reject(@scope.activeUsers, {id: user?.id})
 
+
+        @scope.memberships_agent = @.agents.toJS()
+
         console.log('done xxxxxloading members')
 
 
