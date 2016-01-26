@@ -16,6 +16,9 @@ class CastingController extends mixOf(taiga.Controller, taiga.PageMixin)
     ]
 
     constructor: (@scope, @rootscope,@currentUserService,@auth,@castingService,@model,@location,@navUrls) ->
+
+        @currentUserService._loadInventory()
+
         taiga.defineImmutableProperty(@, "projects", () => @currentUserService.projects.get("all"))
         taiga.defineImmutableProperty(@, "inventory", () => @currentUserService.inventory.get("all"))
         taiga.defineImmutableProperty(@, "agents", () => @currentUserService.agents.get("all"))
@@ -60,7 +63,7 @@ class CastingController extends mixOf(taiga.Controller, taiga.PageMixin)
     onError =  (response) ->
         console.log('on error')
 
-    
+
     FBLogin: ->
         binhAuth = @auth
         binhNavUrls = @navUrls
@@ -69,7 +72,7 @@ class CastingController extends mixOf(taiga.Controller, taiga.PageMixin)
         binhModel = @model
 
         FB.login ((response) ->
-                    
+
             if response.authResponse
                 console.log 'Welcome!  Fetching your information.... '
                 console.log(response)
@@ -100,9 +103,9 @@ class CastingController extends mixOf(taiga.Controller, taiga.PageMixin)
                                     binhAuth.setUser(user_refreshed)
                                     nextUrl = binhNavUrls.resolve("home")
                                     binhLocation.url(nextUrl)
-                    
+
                         return
-          
+
                 FB.api '/me/permissions' , (response) ->
                     console.log(response)
                     return

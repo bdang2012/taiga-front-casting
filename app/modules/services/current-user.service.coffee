@@ -143,9 +143,9 @@ class CurrentUserService
             console.log @._inventory.toJS()
 
             return @.inventory
-            _loadAgents: () ->
+            loadAgents: () ->
 
-    _loadAgents: () ->
+    loadAgents: () ->
         return @castingService.getAgents()
         .then (agents) =>
             @._agents = @._agents.set("all", agents)
@@ -157,7 +157,7 @@ class CurrentUserService
         return Promise.all([
             @.loadProjects()
             @._loadInventory()
-            @._loadAgents()
+            @.loadAgents()
         ])
 
 angular.module("taigaCommon").service("tgCurrentUserService", CurrentUserService)
