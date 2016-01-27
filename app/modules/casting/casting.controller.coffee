@@ -16,33 +16,29 @@ class CastingController extends mixOf(taiga.Controller, taiga.PageMixin)
     ]
 
     constructor: (@scope, @rootscope,@currentUserService,@auth,@castingService,@model,@location,@navUrls) ->
-
-        @currentUserService._loadInventory()
-
-        taiga.defineImmutableProperty(@, "projects", () => @currentUserService.projects.get("all"))
-        taiga.defineImmutableProperty(@, "inventory", () => @currentUserService.inventory.get("all"))
-        taiga.defineImmutableProperty(@, "agents", () => @currentUserService.agents.get("all"))
-        # taiga.defineImmutableProperty(@, "casting_roles", () => @currentUserService.cating_roles.get("all"))
-
-
-
         @scope.tasksEnabled = true
         @scope.issuesEnabled = true
         @scope.wikiEnabled= true
 
-        user = @auth.getUser()
-        if user
+        # taiga.defineImmutableProperty(@, "inventory", () => @currentUserService.inventory.get("all"))
+        taiga.defineImmutableProperty(@, "agents", () => @currentUserService.agents.get("all"))
 
-            #promise = @castingService.getCastingMembers(false)
-            #promise.then (data) =>
-            #    @scope.castingMembers = data.toJS()
+        # @scope.castingMembers = @currentUserService.inventory.get("all").toJS()
 
-            @scope.castingMembers = @currentUserService.inventory.get("all").toJS()
-            #@scope.castingMembers = @castingService.inventory.get("all").toJS()
+        b_scope = @scope
+        b_castingService = @castingService
+        @castingService.getCastingRoles(false)
+        .then (response) ->
+            b_scope.castingRoles = response.toJS()
+        .then (response) ->
+            return b_castingService.getAgents()
+        .then (response) ->
+            b_scope.memberships_agent = response.toJS()
+        .then (response) ->
+            return b_castingService.getCastingMembers()
+        .then (response) ->
+            b_scope.castingMembers = response.toJS()
 
-            promise = @.loadInitialData()
-            promise.then ->
-                console.log('done initializing CastingController')
 
     openActivateAgentLightbox: (user) ->
         if confirm 'Promote this user to be Agent: ' + user.get("full_name") + "?"
@@ -62,7 +58,6 @@ class CastingController extends mixOf(taiga.Controller, taiga.PageMixin)
 
     onError =  (response) ->
         console.log('on error')
-
 
     FBLogin: ->
         binhAuth = @auth
@@ -127,18 +122,18 @@ class CastingController extends mixOf(taiga.Controller, taiga.PageMixin)
         user = @auth.getUser()
 
         # Calculate totals
-        @scope.totals = {}
-        for member in @scope.activeUsers
-            @scope.totals[member.id] = 0
+        # @scope.totals = {}
+        # for member in @scope.activeUsers
+        #    @scope.totals[member.id] = 0
 
         # Get current user
-        @scope.currentUser = _.find(@scope.activeUsers, {id: user?.id})
+        # @scope.currentUser = _.find(@scope.activeUsers, {id: user?.id})
 
         # Get member list without current user
-        @scope.memberships = _.reject(@scope.activeUsers, {id: user?.id})
+        # @scope.memberships = _.reject(@scope.activeUsers, {id: user?.id})
 
 
-        @scope.memberships_agent = @.agents.toJS()
+        # @scope.memberships_agent = @.agents.toJS()
 
         console.log('done xxxxxloading members')
 
