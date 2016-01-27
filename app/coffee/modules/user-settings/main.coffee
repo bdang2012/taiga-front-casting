@@ -109,11 +109,12 @@ class CastingUserSettingsController extends mixOf(taiga.Controller, taiga.PageMi
         "$translate",
         "$routeParams",
         "tgResources",
-        "$tgModel"
+        "$tgModel",
+        "tgCastingService"
     ]
 
     constructor: (@scope, @rootscope, @config, @repo, @confirm, @rs, @params, @q, @location, @navUrls,
-        @auth, @translate,@routeParams,@tgRs,@model) ->
+        @auth, @translate,@routeParams,@tgRs,@model,@castingService) ->
         @scope.sectionName = "USER_SETTINGS.MENU.SECTION_TITLE"
 
         @scope.project = {}
@@ -128,16 +129,17 @@ class CastingUserSettingsController extends mixOf(taiga.Controller, taiga.PageMi
         else
             @scope.user = @auth.getUser()
 
-        console.log("bdlog:<<<<<<userid is:")
-        console.log(@scope.user)
-        console.log(">>>>>>")
-
         if !@scope.user
             @location.path(@navUrls.resolve("permission-denied"))
             @location.replace()
 
         @scope.lang = @getLan()
         @scope.theme = @getTheme()
+
+        b_scope = @scope
+        @getAgents()
+        .then (response) ->
+            b_scope.agents =response
 
         maxFileSize = @config.get("maxUploadFileSize", null)
         if maxFileSize
@@ -167,6 +169,10 @@ class CastingUserSettingsController extends mixOf(taiga.Controller, taiga.PageMi
         return @scope.user.theme ||
             @config.get("defaultTheme") ||
             "taiga"
+    getAgents: ->
+        @castingService.getAgents()
+        .then (response) ->
+            return response.toJS()
 
 module.controller("CastingUserSettingsController", CastingUserSettingsController)
 

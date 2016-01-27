@@ -97,6 +97,7 @@ ng-init="section='user-settings'")
                         )
                             option(value="", translate="USER_PROFILE.FIELD.THEME_DEFAULT")
 
+
                     fieldset
                         label(for="bio", translate="USER_PROFILE.FIELD.BIO")
                         textarea(
@@ -107,6 +108,16 @@ ng-init="section='user-settings'")
                         ng-maxlength="210"
                         maxlength="210"
                         )
+
+                    fieldset
+                        label(for="agent1_id") Agent
+                        select(
+                        name="agent1_id"
+                        id="agent1_id"
+                        ng-model="agents"
+                        ng-options="item as item.full_name for item in agents track by item.id"
+                        )
+                            option(value="") --- No Agent ---
 
                     fieldset
                         label(for="is_agent") Is Agent?
