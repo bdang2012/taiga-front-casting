@@ -1,9 +1,16 @@
 .row.member(ng-repeat="user in castingMembers | membersFilter:filtersQ:filtersRole")
     .username
         figure.avatar
-
             a( href="/casting/user-profile/{{::user.id}}"): img(tg-bo-src="user.photo", tg-bo-alt="user.full_name_display")
 
+            figcaption
+                a.name(tg-nav="user-profile:username=user.username",
+                title="{{::user.full_name_display}}") {{::user.full_name_display}}
+                span.position {{::user.role_name}}
+
+    .username
+        figure.avatar(ng-if="user.agent1")
+            a( href="/casting/user-profile/{{::user.id}}"): img(tg-bo-src="user.photo", tg-bo-alt="user.full_name_display")
 
             figcaption
                 a.name(tg-nav="user-profile:username=user.username",

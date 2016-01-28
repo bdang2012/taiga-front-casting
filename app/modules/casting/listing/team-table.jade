@@ -1,15 +1,11 @@
 section.table-team.basic-table
     header.row.team-header
         div.username
+        div.username
+            div.attribute(style="text-align: left")
+                span Agent
+
         div.member-stats
-            div.attribute.attribute-name(ng-if="issuesEnabled")
-                span(translate="TEAM.COLUMN_MR_WOLF")
-                div.popover.attribute-explanation
-                    span(translate="TEAM.EXPLANATION_COLUMN_MR_WOLF")
-            div.attribute(ng-if="tasksEnabled")
-                span(translate="TEAM.COLUMN_IOCAINE")
-                div.popover.attribute-explanation
-                    span(translate="TEAM.EXPLANATION_COLUMN_IOCAINE")
             div.attribute(ng-if="wikiEnabled")
                 span(translate="TEAM.COLUMN_CERVANTES")
                 div.popover.attribute-explanation
