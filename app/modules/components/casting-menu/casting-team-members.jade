@@ -10,11 +10,11 @@
 
     .username
         figure.avatar(ng-if="user.agent1")
-            a( href="/casting/user-profile/{{::user.id}}"): img(tg-bo-src="user.photo", tg-bo-alt="user.full_name_display")
+            a( href="/casting/user-profile/{{binhfnGetObjectFromJSById(memberships_agent,user.agent1)['id']}}"): img( src="{{binhfnGetObjectFromJSById(memberships_agent,user.agent1)['photo']}}", tg-bo-alt="user.full_name_display")
 
             figcaption
                 a.name(tg-nav="user-profile:username=user.username",
-                title="{{::user.full_name_display}}") {{::user.full_name_display}}
+                title="{{binhfnGetObjectFromJSById(memberships_agent,user.agent1)['full_name_display']}}") {{binhfnGetObjectFromJSById(memberships_agent,user.agent1)['full_name_display']}}
                 span.position {{::user.role_name}}
 
     .member-stats(tg-casting-team-member-stats, stats="stats",

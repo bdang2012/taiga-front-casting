@@ -66,6 +66,7 @@ class PageMixin
             @.fillUsersAndRoles(users, roles)
             return results
 
+
 taiga.PageMixin = PageMixin
 
 

@@ -19,11 +19,9 @@ class CastingController extends mixOf(taiga.Controller, taiga.PageMixin)
         @scope.tasksEnabled = true
         @scope.issuesEnabled = true
         @scope.wikiEnabled= true
+        @scope.binhfnGetObjectFromJSById = @.binhfnGetObjectFromJSById
 
-        # taiga.defineImmutableProperty(@, "inventory", () => @currentUserService.inventory.get("all"))
         taiga.defineImmutableProperty(@, "agents", () => @currentUserService.agents.get("all"))
-
-        # @scope.castingMembers = @currentUserService.inventory.get("all").toJS()
 
         b_scope = @scope
         b_castingService = @castingService
@@ -38,6 +36,14 @@ class CastingController extends mixOf(taiga.Controller, taiga.PageMixin)
             return b_castingService.getCastingMembers()
         .then (response) ->
             b_scope.castingMembers = response.toJS()
+            console.log("---->")
+            console.log(b_scope.castingMembers)
+
+    binhfnGetObjectFromJSById:  (arr, value) ->
+        result = arr.filter((o) ->
+            o.id == value
+        )
+        if result then result[0] else null
 
 
     openActivateAgentLightbox: (user) ->
