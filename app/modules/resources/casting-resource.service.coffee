@@ -60,26 +60,23 @@ Resource = (urlsService, http,  config, paginateResponseService) ->
             return Immutable.fromJS(result.data)
 
     service.getInventory = (paginate=false) ->
-        """
-        url = urlsService.resolve("users")
-        httpOptions = {}
-
-        if !paginate
-            httpOptions.headers = {
-                "x-disable-pagination": "1"
-            }
-
-        params = {"order_by": "memberships__user_order"}
-
-        return http.get(url, params, httpOptions)
-        .then (result) ->
-            return Immutable.fromJS(result.data)
-        """
         url = config.get("api") + 'casting/members_list'
         httpOptions = {}
 
         params = {
 
+        }
+
+        return http.get(url, params, httpOptions)
+        .then (result) ->
+            return Immutable.fromJS(result.data)
+
+    service.getMembersListForAgent = (userid, paginate=false) ->
+        url = config.get("api") + 'casting/members_list_for_agent'
+        httpOptions = {}
+
+        params = {
+            userid: userid
         }
 
         return http.get(url, params, httpOptions)
