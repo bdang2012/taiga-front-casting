@@ -24,7 +24,7 @@ class CastingController extends mixOf(taiga.Controller, taiga.PageMixin)
         taiga.defineImmutableProperty(@, "agents", () => @currentUserService.agents.get("all"))
 
         if @auth.getUser()
-            currentUser = @auth.getUser().toJS()
+            currentUser = @auth.getUser()
             console.log("current user is")
             console.log(currentUser)
 
@@ -42,6 +42,7 @@ class CastingController extends mixOf(taiga.Controller, taiga.PageMixin)
                 return b_castingService.getMembersListForAgent(currentUser.id)
             else
                 return b_castingService.getCastingMembers()
+
         .then (response) ->
             b_scope.castingMembers = response.toJS()
 
